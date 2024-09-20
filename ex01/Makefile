@@ -6,7 +6,7 @@
 #    By: mstrauss <mstrauss@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 17:41:48 by mstrauss          #+#    #+#              #
-#    Updated: 2024/09/19 19:46:24 by mstrauss         ###   ########.fr        #
+#    Updated: 2024/09/20 13:12:13 by mstrauss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ CC			=	c++
 CFLAGS		=	-Wall -Werror -Wextra -std=c++98 -stdlib=libc++
 INC			=	-Iincludes/
 
-HEADERS 	=	phonebook.hpp
+HEADERS 	=	phonebook.class.hpp \
+				contact.class.hpp
 
 SRC_DIRS	=	./srcs
 vpath %.cpp $(SRC_DIRS)
