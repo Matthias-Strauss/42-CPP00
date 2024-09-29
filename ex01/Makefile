@@ -6,35 +6,36 @@
 #    By: mstrauss <mstrauss@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 17:41:48 by mstrauss          #+#    #+#              #
-#    Updated: 2024/09/20 13:12:13 by mstrauss         ###   ########.fr        #
+#    Updated: 2024/09/29 17:47:49 by mstrauss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	phonebook
 
 CC			=	c++
-CFLAGS		=	-Wall -Werror -Wextra -std=c++98 -stdlib=libc++
-INC			=	-Iincludes/
+CFLAGS		=	-Wall -Werror -Wextra -std=c++17 -stdlib=libc++
+INC			=   -I$(CURDIR)
 
-HEADERS 	=	phonebook.class.hpp \
-				contact.class.hpp
-
-SRC_DIRS	=	./srcs
-vpath %.cpp $(SRC_DIRS)
 vpath %.hpp includes
-SRC 		=	phonebook.cpp
+
+SRC 		=	main.cpp\
+                Contact.cpp\
+                Phonebook.cpp\
+
+HEADER		=	Contact.hpp\
+                Phonebook.hpp
 
 OBJ_DIR		=	./obj
-OBJ 		= $(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
+OBJ 		=	$(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 
 RM			=	rm -rf
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -stdlib=libc++
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-$(OBJ_DIR)/%.o: %.cpp $(HEADERS) | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: %.cpp $(HEADER) | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
 $(OBJ_DIR):

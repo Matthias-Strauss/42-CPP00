@@ -6,20 +6,18 @@
 /*   By: mstrauss <mstrauss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:22:14 by mstrauss          #+#    #+#             */
-/*   Updated: 2024/09/20 14:46:59 by mstrauss         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:13:15 by mstrauss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "phonebook.class.hpp"
+#include "Phonebook.hpp"
 
 /* -------------------------------------------------------------------------- */
 /*                         Constructor and Destructor                         */
 /* -------------------------------------------------------------------------- */
 
-PhoneBook::PhoneBook()
+PhoneBook::PhoneBook() : _nbContacts(0), _usersAdded(0)
 {
-	_nbContacts = 0;
-	_usersAdded = 0;
 	std::cout << "Phonebook created" << std::endl;
 }
 
@@ -34,33 +32,34 @@ PhoneBook::~PhoneBook()
 
 void PhoneBook::addContact()
 {
-	Contact newContact;
-	std::string userInput;
+	std::string firstName, lastName, nickname, phoneNumber, darkestSecret;
 
 	std::cout << "Enter first name: ";
-	std::getline(std::cin, userInput);
-	newContact.setFirstName(userInput);
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::getline(std::cin, firstName);
 
 	std::cout << "Enter last name: ";
-	std::getline(std::cin, userInput);
-	newContact.setLastName(userInput);
+	std::getline(std::cin, lastName);
 
 	std::cout << "Enter nickname: ";
-	std::getline(std::cin, userInput);
-	newContact.setNickname(userInput);
+	std::getline(std::cin, nickname);
 
 	std::cout << "Enter phone number: ";
-	std::getline(std::cin, userInput);
-	newContact.setPhoneNumber(userInput);
+	std::getline(std::cin, phoneNumber);
 
 	std::cout << "Enter darkest secret: ";
-	std::getline(std::cin, userInput);
-	newContact.setDarkestSecret(userInput);
+	std::getline(std::cin, darkestSecret);
 
-	_contacts[_usersAdded % 7] = newContact; // CHECK THIS FOR MORE THAN 8 USERS!!!
+	if (_usersAdded >= 8)
+		std::cout << "Phonebook is full. Overwriting " << _contacts[_usersAdded % 8].getFirstName() << " " << _contacts[_usersAdded % 8].getLastName() << std::endl;
+
+	Contact newContact(firstName, lastName, nickname, phoneNumber, darkestSecret);
+
+	_contacts[_usersAdded % 8] = newContact;
 	_usersAdded++;
 	if (_nbContacts < 8)
 		_nbContacts++;
+	std::cout << newContact.getFirstName() << " " << newContact.getLastName() <<" added successfully" << std::endl;
 }
 
 void PhoneBook::searchContact()
@@ -104,25 +103,4 @@ std::string PhoneBook::_truncateString(std::string str)
 		return (str.substr(0, 9) + ".");
 	else
 		return (str);
-}
-
-int main(void)
-{
-	PhoneBook phonebook;
-	std::string command;
-
-	while (true)
-	{
-		std::cout << "Enter a command (ADD, SEARCH, EXIT): ";
-		std::cin >> command;
-		if (command == "ADD")
-			phonebook.addContact();
-		else if (command == "SEARCH")
-			phonebook.searchContact();
-		else if (command == "EXIT")
-			break;
-		else
-			std::cout << "Invalid command" << std::endl;
-	}
-	return (0);
 }
